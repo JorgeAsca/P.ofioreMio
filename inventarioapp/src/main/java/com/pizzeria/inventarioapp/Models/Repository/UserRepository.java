@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<Usuarios, Integer> {
     //Metodo para buscar un usuario por su nombre de usuario
-    Optional<Usuarios> findByUsername(String username);
+    Optional<Usuarios> findByNombreUsuario(String nombreUsuario);
 
     
 

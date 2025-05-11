@@ -22,6 +22,6 @@ public interface SalesRecordRepository extends JpaRepository<SalesRecord, Intege
     List<SalesRecord> findBySaleDateBetween(Date startDate, Date endDate);
 
     // Método para encontrar registros de venta por usuario
-    List<SalesRecord> findByUser(Usuarios user);
+    List<SalesRecord> findByUsuario(Usuarios usuario);
     
 }

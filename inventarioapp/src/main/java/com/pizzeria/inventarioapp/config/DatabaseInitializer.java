@@ -136,26 +136,26 @@ public class DatabaseInitializer implements CommandLineRunner {
 
             if (catVarios != null) {
                 cocaCola = new Productos();
-                cocaCola.setProductName("Coca-Cola 2L");
+                cocaCola.setNombreProducto("Coca-Cola 2L");
                 cocaCola.setCurrentStock(new BigDecimal("100"));
                 cocaCola.setUnitOfMeasure("unidades");
-                cocaCola.setCategory(catVarios);
+                cocaCola.setCategoria(catVarios);
                 cocaCola = productRepository.save(cocaCola);
             }
             System.out.println("Productos de ejemplo creados.");
         } else {
             // Cargar productos si ya existen para usarlos en recetas
-            harina = productRepository.findAll().stream().filter(p -> p.getProductName().equals("Harina de Trigo")).findFirst().orElse(null);
-            tomate = productRepository.findAll().stream().filter(p -> p.getProductName().equals("Salsa de Tomate")).findFirst().orElse(null);
-            queso = productRepository.findAll().stream().filter(p -> p.getProductName().equals("Queso Mozzarella")).findFirst().orElse(null);
-            pepperoni = productRepository.findAll().stream().filter(p -> p.getProductName().equals("Pepperoni")).findFirst().orElse(null);
+            harina = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Harina de Trigo")).findFirst().orElse(null);
+            tomate = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Salsa de Tomate")).findFirst().orElse(null);
+            queso = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Queso Mozzarella")).findFirst().orElse(null);
+            pepperoni = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Pepperoni")).findFirst().orElse(null);
         }
 
 
         // --- 5. Crear Ítems del Menú (Pizzas) ---
-        MenuItem pizzaPepperoni = null;
+        Menu pizzaPepperoni = null;
         if (menuItemRepository.count() == 0) {
-            pizzaPepperoni = new MenuItem();
+            pizzaPepperoni = new Menu();
             pizzaPepperoni.setItemName("Pizza Pepperoni");
             pizzaPepperoni.setDescription("Clásica pizza de pepperoni con queso mozzarella.");
             pizzaPepperoni.setSalePrice(new BigDecimal("12.50"));
@@ -168,29 +168,29 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         // --- 6. Crear Ingredientes para los Ítems del Menú (Recetas) ---
         if (menuItemIngredientRepository.count() == 0 && pizzaPepperoni != null && harina != null && tomate != null && queso != null && pepperoni != null) {
-            MenuItemIngredient ingHarina = new MenuItemIngredient();
-            ingHarina.setMenuItem(pizzaPepperoni);
+            MenuItemIngrediente ingHarina = new MenuItemIngrediente();
+            ingHarina.setMenu(pizzaPepperoni);
             ingHarina.setProduct(harina);
             ingHarina.setQuantityRequired(new BigDecimal("0.250")); // 250g
             ingHarina.setUnitRequired("kg");
             menuItemIngredientRepository.save(ingHarina);
 
-            MenuItemIngredient ingTomate = new MenuItemIngredient();
-            ingTomate.setMenuItem(pizzaPepperoni);
+            MenuItemIngrediente ingTomate = new MenuItemIngrediente();
+            ingTomate.setMenu(pizzaPepperoni);
             ingTomate.setProduct(tomate);
             ingTomate.setQuantityRequired(new BigDecimal("0.150")); // 150ml
             ingTomate.setUnitRequired("litros");
             menuItemIngredientRepository.save(ingTomate);
 
-            MenuItemIngredient ingQueso = new MenuItemIngredient();
-            ingQueso.setMenuItem(pizzaPepperoni);
+            MenuItemIngrediente ingQueso = new MenuItemIngrediente();
+            ingQueso.setMenu(pizzaPepperoni);
             ingQueso.setProduct(queso);
             ingQueso.setQuantityRequired(new BigDecimal("0.200")); // 200g
             ingQueso.setUnitRequired("kg");
             menuItemIngredientRepository.save(ingQueso);
 
-            MenuItemIngredient ingPepperoni = new MenuItemIngredient();
-            ingPepperoni.setMenuItem(pizzaPepperoni);
+            MenuItemIngrediente ingPepperoni = new MenuItemIngrediente();
+            ingPepperoni.setMenu(pizzaPepperoni);
             ingPepperoni.setProduct(pepperoni);
             ingPepperoni.setQuantityRequired(new BigDecimal("0.100")); // 100g
             ingPepperoni.setUnitRequired("kg");

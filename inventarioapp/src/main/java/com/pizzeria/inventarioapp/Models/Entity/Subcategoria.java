@@ -21,7 +21,7 @@ public class Subcategoria {
     @Column(name = "id_subcategoria")
     private Integer subcategoriaId;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria", nullable = false) // Se asume que una subcategoria pertenece a una categoria
     private Categoria categoria;
 

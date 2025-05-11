@@ -26,11 +26,11 @@ public class SalesRecord {
 
     @Temporal(TemporalType.DATE) // Solo la fecha, sin hora
     @Column(name = "sale_date", nullable = false)
-    private Date saleDate; // O java.time.LocalDate
+    private Date saleDate; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id") // Puede ser nullable si así lo definiste en el SQL
-    private Usuarios user;
+    private Usuarios usuario;
 
     @Lob
     private String notes;

@@ -13,5 +13,4 @@ public interface MenuItemIngredienteRepository extends JpaRepository<MenuItemIng
     //Metodo para encontrar tododos los ingredientes de un menu
     List<MenuItemIngrediente> findByMenu(Menu menu);
 
-    //Metodo para encontrar si un producto especifico es usado como ingrediente en un menu
 }

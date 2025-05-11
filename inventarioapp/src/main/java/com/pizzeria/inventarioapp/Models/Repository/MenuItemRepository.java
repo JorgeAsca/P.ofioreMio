@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface MenuItemRepository extends JpaRepository<Menu, Integer> {
     // Metodo para buscar un item por su nombre
-    Optional<Menu> findByNombreMenu(String nombreMenu);
+    Optional<Menu> findByItemName(String itemName);
 
     // Metodo para buscar un item por su categoria
     List<Menu> findByIsAvailableTrue();

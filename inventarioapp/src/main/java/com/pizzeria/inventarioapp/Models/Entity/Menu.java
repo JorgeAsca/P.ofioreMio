@@ -41,7 +41,7 @@ public class Menu {
     private Timestamp createdAt;
 
     // Relación: Un ítem del menú está compuesto por muchos ingredientes (su receta)
-    @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // EAGER puede ser útil para cargar la receta siempre
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // EAGER puede ser útil para cargar la receta siempre
     private Set<MenuItemIngrediente> ingredients;
 
     // Relación inversa: Un ítem del menú puede estar en muchos ítems vendidos
