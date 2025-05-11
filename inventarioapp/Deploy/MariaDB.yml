@@ -1,0 +1,16 @@
+version: '3.8' 
+
+services:
+  db_new_project: 
+    container_name: InventarioDB      
+    image: mariadb:latest             
+    environment:
+      MARIADB_USER: AdminNew          
+      MARIADB_PASSWORD: newprojectpwd 
+      MARIADB_DATABASE: NewProjectDB  
+      MARIADB_ROOT_PASSWORD: inventariopwd  
+    volumes:
+      - ./data_new_project:/var/lib/mysql 
+    ports:
+      - "3309:3306"                 
+    restart: unless-stopped           

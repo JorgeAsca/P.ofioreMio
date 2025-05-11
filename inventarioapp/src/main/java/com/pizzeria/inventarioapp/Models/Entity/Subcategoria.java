@@ -1,0 +1,34 @@
+package com.pizzeria.inventarioapp.Models.Entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.util.Set;
+
+@Entity
+@Table(name = "subcategoria")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Subcategoria {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_subcategoria")
+    private Integer subcategoriaId;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_categoria", nullable = false) // Se asume que una subcategoria pertenece a una categoria
+    private Categoria categoria;
+
+    @Column(name = "nombre_subcategoria", nullable = false, unique = true, length = 255)
+    private String nombreSubcategoria;
+
+    //Relación inversa (Una subcategoria puede tener muchos productos)
+    @OneToMany(mappedBy = "subcategoria", cascade = CascadeType.PERSIST)// Ajusta el CascadeType según la logica
+    private Set<Productos> productos;
+}
