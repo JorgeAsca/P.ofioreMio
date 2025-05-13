@@ -35,4 +35,6 @@ public class CategoriaDTO {
         this.categoryName = categoryName;
     }
 
+    
+
 }

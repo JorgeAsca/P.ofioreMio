@@ -1,7 +1,10 @@
 package com.pizzeria.inventarioapp.Controllers;
 
 import com.pizzeria.inventarioapp.Models.Entity.Productos;
+import com.pizzeria.inventarioapp.Models.Services.CategoriaService;
 import com.pizzeria.inventarioapp.Models.Services.ProductoService;
+import com.pizzeria.inventarioapp.dto.SubcategoriaDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/v1/productos")
@@ -62,4 +66,7 @@ public class ProductoControllers {
             return ResponseEntity.notFound().build(); // Devuelve 404 Not Found si el producto no se encuentra
         }
     }
-}
+
+     // 404 si la categoría padre no existe
+    }
+

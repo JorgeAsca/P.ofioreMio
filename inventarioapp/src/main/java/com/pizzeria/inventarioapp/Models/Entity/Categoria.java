@@ -22,5 +22,9 @@ public class Categoria {
 
     @Column(name = "nombre_categoria", nullable = false, unique = true, length = 255)
     private String nombreCategoria;
+
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Subcategoria> subcategorias;
+
     
 }

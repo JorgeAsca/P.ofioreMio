@@ -44,7 +44,7 @@ public class CategoriaService {
     @Transactional
     public CategoriaDTO createCategoria(CategoriaDTO categoriaDTO) {
         Categoria categoria = new Categoria();
-        categoria.setCategoryName(categoriaDTO.getCategoryName());
+        categoria.setNombreCategoria(categoriaDTO.getCategoryName());
         // Aqui no voy a agregar subcategorias al crear la categoria principal
         Categoria savedCategoria = categoryRepository.save(categoria);
         return convertToCategoriaDTO(savedCategoria);
@@ -54,7 +54,7 @@ public class CategoriaService {
     public Optional<CategoriaDTO> updateCategoria(Integer id, CategoriaDTO categoriaDTO) {
         return categoryRepository.findById(id)
                 .map(existingCategoria -> {
-                    existingCategoria.setCategoryName(categoriaDTO.getCategoryName());
+                    existingCategoria.setNombreCategoria(categoriaDTO.getCategoryName());
                     Categoria updatedCategoria = categoryRepository.save(existingCategoria);
                     return convertToCategoriaDTO(updatedCategoria);
                 });
@@ -62,7 +62,7 @@ public class CategoriaService {
     }
 
     @Transactional
-    public boolean deleteCategoria(integer id) {
+    public boolean deleteCategoria(Integer id) {
         if (categoryRepository.existsById(id)) {
             // Considera que sucede con las subcategorias y productos asociados
             categoryRepository.deleteById(id);
@@ -74,7 +74,7 @@ public class CategoriaService {
     // Metodos para SubcategoriaDTO relacionados a Categoria
 
     @Transactional(readOnly = true)
-    public Optional<List<SubcategoiraDTO>> getSubcategoriasByCategoriaId(Integer categoriaId) {
+    public Optional<List<SubcategoriaDTO>> getSubcategoriasByCategoriaId(Integer categoriaId) {
         Optional<Categoria> categoria = categoryRepository.findById(categoriaId);
         if(categoria.isPresent()) {
             // Accede al "Get" subcategoria dentro de la transaction para asegurar la caraga si es lazy
@@ -96,9 +96,9 @@ public class CategoriaService {
         Optional<Categoria> categoriaOpt = categoryRepository.findById(categoriaId);
         if(categoriaOpt.isPresent()) {
             Subcategoria subcategoria = new Subcategoria();
-            subcategoria.setSubcategoryName(subcategoriaDTO.getSubcategoryName());
+            subcategoria.setNombreSubcategoria(subcategoriaDTO.getSubcategoryName());
             subcategoria.setCategoria(categoriaOpt.get()); // Acá se le asigna la categoria padre 
-            Subcategoria savedSubcategoria = subcategoriaRepository.save(subcategoria); 
+            Subcategoria savedSubcategoria = subCateogryRepository.save(subcategoria);
             return Optional.of(convertToSubcategoriaDTO(savedSubcategoria));
         }
         return Optional.empty(); // categoria no encontrada
@@ -107,14 +107,14 @@ public class CategoriaService {
     // Metodos de conversión
 
     private CategoriaDTO convertToCategoriaDTO(Categoria categoria){
-        return new CategoriaDTO(categoria.getCategoriaId(), categoria.getCategoryName());
+        return new CategoriaDTO(categoria.getCategoriaId(), categoria.getNombreCategoria());
 
     }
 
     private SubcategoriaDTO convertToSubcategoriaDTO(Subcategoria subcategoria) {
-        return new SubcategoriaDTO(subcategoria.getSubcategoryId(), subcategoria.getSubcategoryName());
+        return new SubcategoriaDTO(subcategoria.getSubcategoriaId(), subcategoria.getNombreSubcategoria());
     }
 
 
     }
-}
+

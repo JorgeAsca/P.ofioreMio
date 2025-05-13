@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date; // O java.time.LocalDate si prefieres
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class SalesRecord {
 
     @Temporal(TemporalType.DATE) // Solo la fecha, sin hora
     @Column(name = "sale_date", nullable = false)
-    private Date saleDate; 
+    private Date saleDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id") // Puede ser nullable si así lo definiste en el SQL
@@ -40,7 +41,7 @@ public class SalesRecord {
     private Timestamp recordedAt;
 
     // Relación: Un registro de venta contiene muchos ítems vendidos
-    @OneToMany(mappedBy = "salesRecord", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<SoldItem> soldItems;
+    @OneToMany(mappedBy = "salesRecord", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<SoldItem> soldItems = new HashSet<>();
 
 }

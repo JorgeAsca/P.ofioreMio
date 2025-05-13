@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -42,7 +43,7 @@ public class Menu {
 
     // Relación: Un ítem del menú está compuesto por muchos ingredientes (su receta)
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // EAGER puede ser útil para cargar la receta siempre
-    private Set<MenuItemIngrediente> ingredients;
+    private Set<MenuItemIngrediente> ingredients = new HashSet<>();
 
     // Relación inversa: Un ítem del menú puede estar en muchos ítems vendidos
     @OneToMany(mappedBy = "menuItem", cascade = CascadeType.PERSIST)

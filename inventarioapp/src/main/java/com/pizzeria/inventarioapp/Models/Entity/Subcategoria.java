@@ -28,7 +28,8 @@ public class Subcategoria {
     @Column(name = "nombre_subcategoria", nullable = false, unique = true, length = 255)
     private String nombreSubcategoria;
 
-    //Relación inversa (Una subcategoria puede tener muchos productos)
-    @OneToMany(mappedBy = "subcategoria", cascade = CascadeType.PERSIST)// Ajusta el CascadeType según la logica
+    // Relación inversa (Una subcategoria puede tener muchos productos)
+    @OneToMany(mappedBy = "subcategoria", cascade = CascadeType.PERSIST) // Ajusta el CascadeType según la logica
     private Set<Productos> productos;
 }
+
