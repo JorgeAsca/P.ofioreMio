@@ -48,6 +48,9 @@ public class Productos {
     @Column(name = "alerta_minima", precision = 10, scale = 2)
     private BigDecimal minStockAlert;
 
+    @Column(name = "imagen_Url", length = 1024)
+    private String imagenUrl;
+
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;

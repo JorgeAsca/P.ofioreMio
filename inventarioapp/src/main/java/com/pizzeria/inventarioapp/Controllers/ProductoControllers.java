@@ -3,6 +3,7 @@ package com.pizzeria.inventarioapp.Controllers;
 import com.pizzeria.inventarioapp.Models.Entity.Productos;
 import com.pizzeria.inventarioapp.Models.Services.CategoriaService;
 import com.pizzeria.inventarioapp.Models.Services.ProductoService;
+import com.pizzeria.inventarioapp.dto.ProductoDTO;
 import com.pizzeria.inventarioapp.dto.SubcategoriaDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,47 +27,40 @@ public class ProductoControllers {
     }
 
     @GetMapping
-    public ResponseEntity<List<Productos>> getAllProductos() {
-        List<Productos> productos = productoService.getAllProductos();
-        return ResponseEntity.ok(productos); // Devuelve 200 OK con la lista de productos
+    public ResponseEntity<List<ProductoDTO>> getAllProductos() { // Devuelve List<ProductoDTO>
+        List<ProductoDTO> productos = productoService.getAllProductos();
+        return ResponseEntity.ok(productos);
     }
 
-    // Empoint para obtener un producto por su id
     @GetMapping("/{id}")
-    public ResponseEntity<Productos> getProductoById(@PathVariable Integer id) {
-        Optional<Productos> producto = productoService.getProductoById(id);
-        return producto.map(ResponseEntity::ok)// Devuelve 200 OK con el producto encontrado
-                .orElseGet(() -> ResponseEntity.notFound().build()); // Devuelve 404 Not Found
+    public ResponseEntity<ProductoDTO> getProductoById(@PathVariable Integer id) { // Devuelve ProductoDTO
+        Optional<ProductoDTO> productoDTO = productoService.getProductoById(id);
+        return productoDTO.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Empoint para crear un nuevo producto
     @PostMapping
-    public ResponseEntity<Productos> createProducto(@RequestBody Productos producto) {
-        // @RequestBody indica que el cuerpo de la solicutud HTTP (Json) se convertira en un objeto Producto
-        Productos nuevoProducto = productoService.createProducto(producto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);// Devuelve 201 Created con el nuevo producto 
+    public ResponseEntity<ProductoDTO> createProducto(@RequestBody Productos productoInput) { // Recibe la entidad, pero devuelve DTO
+        // El servicio se encarga de la lógica y la conversión a DTO
+        ProductoDTO nuevoProductoDTO = productoService.createProducto(productoInput);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProductoDTO);
     }
 
-    // Empoint para actualizar un producto
     @PutMapping("/{id}")
-    public ResponseEntity<Productos> updateProducto(@PathVariable Integer id, @RequestBody Productos productoDetails){
-        Optional<Productos> updatedProducto = productoService.updateProducto(id, productoDetails);
-        return updatedProducto.map(ResponseEntity::ok) 
+    public ResponseEntity<ProductoDTO> updateProducto(@PathVariable Integer id, @RequestBody Productos productoDetails){ // Recibe entidad, devuelve DTO
+        Optional<ProductoDTO> updatedProductoDTO = productoService.updateProducto(id, productoDetails);
+        return updatedProductoDTO.map(ResponseEntity::ok) 
                 .orElseGet(() -> ResponseEntity.notFound().build()); 
-
     } 
 
-    // Empoint para eliminar un producto
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProducto(@PathVariable Integer id) {
         boolean isDeleted = productoService.deleteProducto(id);
         if (isDeleted) {
             return ResponseEntity.noContent().build(); 
         } else {
-            return ResponseEntity.notFound().build(); // Devuelve 404 Not Found si el producto no se encuentra
+            return ResponseEntity.notFound().build();
         }
     }
-
-     // 404 si la categoría padre no existe
-    }
+}
 

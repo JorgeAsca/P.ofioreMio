@@ -45,7 +45,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     }
 
     @Override
-    @Transactional // Es muy importante para asegurar la atomicidad de las operaciones de escritura
+    @Transactional 
     public void run(String... args) throws Exception {
         System.out.println("Iniciando la inicialización de la base de datos...");
 
@@ -109,7 +109,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                 harina.setCurrentStock(new BigDecimal("50.00"));
                 harina.setUnitOfMeasure("kg");
                 harina.setCategoria(catPizza);
-                // harina.setSubCategory(subDentro); // Opcional, si la harina es de un proveedor específico
+                harina.setImagenUrl("https://ejemplo.com/imagenes/harina.jpg");
+                // harina.setSubCategory(subDentro); 
                 harina = productRepository.save(harina);
 
                 tomate = new Productos();
