@@ -22,14 +22,14 @@ public class Subcategoria {
     private Integer subcategoriaId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_categoria", nullable = false) // Se asume que una subcategoria pertenece a una categoria
+    @JoinColumn(name = "id_categoria", nullable = false) 
     private Categoria categoria;
 
     @Column(name = "nombre_subcategoria", nullable = false, unique = true, length = 255)
     private String nombreSubcategoria;
 
     // Relación inversa (Una subcategoria puede tener muchos productos)
-    @OneToMany(mappedBy = "subcategoria", cascade = CascadeType.PERSIST) // Ajusta el CascadeType según la logica
+    @OneToMany(mappedBy = "subcategoria", cascade = CascadeType.PERSIST) 
     private Set<Productos> productos;
 }
 
