@@ -22,7 +22,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final MenuItemIngredienteRepository menuItemIngredientRepository;
     private final SalesRecordRepository salesRecordRepository; // Opcional para datos iniciales
     private final SoldItemRepository soldItemRepository; // Opcional para datos iniciales
-    private final PasswordEncoder passwordEncoder; 
+    private final PasswordEncoder passwordEncoder;
 
     public DatabaseInitializer(UserRepository userRepository,
             CategoryRepository categoryRepository,
@@ -45,7 +45,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     }
 
     @Override
-    @Transactional 
+    @Transactional
     public void run(String... args) throws Exception {
         System.out.println("Iniciando la inicialización de la base de datos...");
 
@@ -53,8 +53,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         if (userRepository.count() == 0) {
             Usuarios adminUser = new Usuarios();
             adminUser.setNombreUsuario("admin");
-            adminUser.setPasswordHash(passwordEncoder.encode("admin123")); 
-            adminUser.setRole("ADMIN"); 
+            adminUser.setPasswordHash(passwordEncoder.encode("admin123"));
+            adminUser.setRole("ADMIN");
             userRepository.save(adminUser);
             System.out.println("Usuario administrador creado.");
         }
@@ -99,6 +99,20 @@ public class DatabaseInitializer implements CommandLineRunner {
             subFuera = subCategoryRepository.findByNombreSubcategoria("Fuera del Pueblo").orElse(null);
         }
 
+        if (subCategoryRepository.findByCategoria(catPlancha).isEmpty() && catPlancha != null) { // Verifica si
+                                                                                                 // catPlancha ya tiene
+                                                                                                 // subcategorías
+            Subcategoria subBocadillo = new Subcategoria();
+            subBocadillo.setCategoria(catPlancha); // Asociar con Productos de Plancha
+            subBocadillo.setNombreSubcategoria("Dentro del Pueblo");
+            subCategoryRepository.save(subBocadillo);
+
+            Subcategoria subHamburguesa = new Subcategoria();
+            subHamburguesa.setCategoria(catPlancha); // Asociar con Productos de Plancha
+            subHamburguesa.setNombreSubcategoria("Fuera del Pueblo");
+            subCategoryRepository.save(subHamburguesa);
+            System.out.println("Subcategorías para plancha creadas.");
+        }
 
         // --- 4. Crear Productos (Ingredientes y Otros) ---
         Productos harina = null, tomate = null, queso = null, pepperoni = null, cocaCola = null;
@@ -110,7 +124,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 harina.setUnitOfMeasure("kg");
                 harina.setCategoria(catPizza);
                 harina.setImagenUrl("https://ejemplo.com/imagenes/harina.jpg");
-                // harina.setSubCategory(subDentro); 
+                // harina.setSubCategory(subDentro);
                 harina = productRepository.save(harina);
 
                 tomate = new Productos();
@@ -146,12 +160,15 @@ public class DatabaseInitializer implements CommandLineRunner {
             System.out.println("Productos de ejemplo creados.");
         } else {
             // Cargar productos si ya existen para usarlos en recetas
-            harina = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Harina de Trigo")).findFirst().orElse(null);
-            tomate = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Salsa de Tomate")).findFirst().orElse(null);
-            queso = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Queso Mozzarella")).findFirst().orElse(null);
-            pepperoni = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Pepperoni")).findFirst().orElse(null);
+            harina = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Harina de Trigo"))
+                    .findFirst().orElse(null);
+            tomate = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Salsa de Tomate"))
+                    .findFirst().orElse(null);
+            queso = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Queso Mozzarella"))
+                    .findFirst().orElse(null);
+            pepperoni = productRepository.findAll().stream().filter(p -> p.getNombreProducto().equals("Pepperoni"))
+                    .findFirst().orElse(null);
         }
-
 
         // --- 5. Crear Ítems del Menú (Pizzas) ---
         Menu pizzaPepperoni = null;
@@ -168,7 +185,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         // --- 6. Crear Ingredientes para los Ítems del Menú (Recetas) ---
-        if (menuItemIngredientRepository.count() == 0 && pizzaPepperoni != null && harina != null && tomate != null && queso != null && pepperoni != null) {
+        if (menuItemIngredientRepository.count() == 0 && pizzaPepperoni != null && harina != null && tomate != null
+                && queso != null && pepperoni != null) {
             MenuItemIngrediente ingHarina = new MenuItemIngrediente();
             ingHarina.setMenu(pizzaPepperoni);
             ingHarina.setProduct(harina);
