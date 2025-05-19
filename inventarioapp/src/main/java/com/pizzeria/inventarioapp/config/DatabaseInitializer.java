@@ -1,7 +1,7 @@
 package com.pizzeria.inventarioapp.config;
 
-import com.pizzeria.inventarioapp.Models.Entity.*; //Importa todas las entidades
-import com.pizzeria.inventarioapp.Models.Repository.*; //Importa todos los repositorios
+import com.pizzeria.inventarioapp.Models.Entity.*; 
+import com.pizzeria.inventarioapp.Models.Repository.*; 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder; // Para codificar contraseñas
 import org.springframework.stereotype.Component;
@@ -20,8 +20,8 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final MenuItemRepository menuItemRepository;
     private final MenuItemIngredienteRepository menuItemIngredientRepository;
-    private final SalesRecordRepository salesRecordRepository; // Opcional para datos iniciales
-    private final SoldItemRepository soldItemRepository; // Opcional para datos iniciales
+    private final SalesRecordRepository salesRecordRepository; 
+    private final SoldItemRepository soldItemRepository; 
     private final PasswordEncoder passwordEncoder;
 
     public DatabaseInitializer(UserRepository userRepository,
@@ -32,7 +32,7 @@ public class DatabaseInitializer implements CommandLineRunner {
             MenuItemIngredienteRepository menuItemIngredientRepository,
             SalesRecordRepository salesRecordRepository,
             SoldItemRepository soldItemRepository,
-            PasswordEncoder passwordEncoder) { // Asegúrate de tener un bean PasswordEncoder configurado
+            PasswordEncoder passwordEncoder) { 
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.subCategoryRepository = subCategoryRepository;
@@ -124,7 +124,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 harina.setUnitOfMeasure("kg");
                 harina.setCategoria(catPizza);
                 harina.setImagenUrl("https://ejemplo.com/imagenes/harina.jpg");
-                // harina.setSubCategory(subDentro);
+                
                 harina = productRepository.save(harina);
 
                 tomate = new Productos();
@@ -190,28 +190,28 @@ public class DatabaseInitializer implements CommandLineRunner {
             MenuItemIngrediente ingHarina = new MenuItemIngrediente();
             ingHarina.setMenu(pizzaPepperoni);
             ingHarina.setProduct(harina);
-            ingHarina.setQuantityRequired(new BigDecimal("0.250")); // 250g
+            ingHarina.setQuantityRequired(new BigDecimal("0.250")); 
             ingHarina.setUnitRequired("kg");
             menuItemIngredientRepository.save(ingHarina);
 
             MenuItemIngrediente ingTomate = new MenuItemIngrediente();
             ingTomate.setMenu(pizzaPepperoni);
             ingTomate.setProduct(tomate);
-            ingTomate.setQuantityRequired(new BigDecimal("0.150")); // 150ml
+            ingTomate.setQuantityRequired(new BigDecimal("0.150")); 
             ingTomate.setUnitRequired("litros");
             menuItemIngredientRepository.save(ingTomate);
 
             MenuItemIngrediente ingQueso = new MenuItemIngrediente();
             ingQueso.setMenu(pizzaPepperoni);
             ingQueso.setProduct(queso);
-            ingQueso.setQuantityRequired(new BigDecimal("0.200")); // 200g
+            ingQueso.setQuantityRequired(new BigDecimal("0.200")); 
             ingQueso.setUnitRequired("kg");
             menuItemIngredientRepository.save(ingQueso);
 
             MenuItemIngrediente ingPepperoni = new MenuItemIngrediente();
             ingPepperoni.setMenu(pizzaPepperoni);
             ingPepperoni.setProduct(pepperoni);
-            ingPepperoni.setQuantityRequired(new BigDecimal("0.100")); // 100g
+            ingPepperoni.setQuantityRequired(new BigDecimal("0.100")); 
             ingPepperoni.setUnitRequired("kg");
             menuItemIngredientRepository.save(ingPepperoni);
             System.out.println("Receta para Pizza Pepperoni creada.");

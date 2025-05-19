@@ -9,7 +9,7 @@ import {
   type SubcategoriaDTO 
 
 } from '../services/categoriaService';
-// Asumiendo que tienes este servicio y DTOs
+
 
 interface AddProductFormProps {
   onProductChange: () => void; 
@@ -79,7 +79,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, produc
       fetchProductoData();
     } else {
       setIsEditMode(false);
-      // Resetear formulario si no es modo edición (o al cambiar de editar a crear)
+      
       setNombreProducto(''); setDescripcionProducto(''); setCurrentStock('0');
       setUnitOfMeasure(''); setImageUrl(''); setMinStockAlert('0');
       setSelectedCategoriaId(''); setSelectedSubcategoriaId('');
@@ -118,9 +118,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, produc
         try {
           const data = await getSubcategoriasByCategoriaId(parseInt(selectedCategoriaId));
           setSubcategorias(data);
-          // Si estábamos editando y la subcategoría original pertenece a esta nueva lista de subcategorías,
-          // podríamos intentar preseleccionarla. Esto requiere más lógica.
-          // Por ahora, el usuario tendrá que volver a seleccionar.
+          
         } catch (error) {
           console.error("Error cargando subcategorías:", error);
         } finally {
@@ -132,7 +130,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, produc
       setSubcategorias([]);
       setSelectedSubcategoriaId('');
     }
-  }, [selectedCategoriaId, isEditMode, productoAEditarId]); // Añadir isEditMode y productoAEditarId a las dependencias puede ser necesario para la lógica de preselección
+  }, [selectedCategoriaId, isEditMode, productoAEditarId]); 
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -181,14 +179,12 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, produc
   return (
     <form onSubmit={handleSubmit}>
       <h3>{isEditMode ? 'Editar Producto' : 'Agregar Nuevo Producto'}</h3>
-      {/* ... (mensajes de error y éxito) ... */}
-      {/* ... (todos los campos del formulario como los tenías) ... */}
-      {/* Ejemplo de un campo: */}
+      
       <div>
         <label htmlFor="nombreProducto">Nombre del Producto:</label>
         <input type="text" value={nombreProducto || ''} onChange={(e) => setNombreProducto(e.target.value)} required />
       </div>
-      {/* ... (campos: descripcionProducto, currentStock, unitOfMeasure, imageUrl, minStockAlert) ... */}
+      
       <div>
         <label htmlFor="currentStock">Stock Actual:</label>
         <input type="number" value={currentStock || '0'} onChange={(e) => setCurrentStock(e.target.value)} required step="0.01" min="0" />

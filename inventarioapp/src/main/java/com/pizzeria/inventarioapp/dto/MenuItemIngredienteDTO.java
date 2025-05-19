@@ -3,16 +3,15 @@ package com.pizzeria.inventarioapp.dto;
 import java.math.BigDecimal;
 
 public class MenuItemIngredienteDTO {
-    private Integer menuItemIngredientId; // Opcional, más útil para respuestas que para peticiones de creación
-    private Integer productoId; // ID del producto (ingrediente)
-    private String nombreProducto; // Opcional, para mostrar en respuestas
+    private Integer menuItemIngredientId; // El ID de la propia entrada de ingrediente en la receta
+    private Integer productoId; // ID del Producto
+    private String nombreProducto; // Nombre del Producto (para mostrar fácilmente en el frontend)
     private BigDecimal quantityRequired;
     private String unitRequired;
 
-    // Constructores, Getters, Setters
-    public MenuItemIngredienteDTO() {}
+    public MenuItemIngredienteDTO() {
+    }
 
-    // Constructor para crear desde la entidad (útil en el servicio)
     public MenuItemIngredienteDTO(Integer menuItemIngredientId, Integer productoId, String nombreProducto, BigDecimal quantityRequired, String unitRequired) {
         this.menuItemIngredientId = menuItemIngredientId;
         this.productoId = productoId;
@@ -20,16 +19,8 @@ public class MenuItemIngredienteDTO {
         this.quantityRequired = quantityRequired;
         this.unitRequired = unitRequired;
     }
-    
-    // Constructor para recibir en peticiones (sin el id del ingrediente mismo, ni el nombre del producto)
-    public MenuItemIngredienteDTO(Integer productoId, BigDecimal quantityRequired, String unitRequired) {
-        this.productoId = productoId;
-        this.quantityRequired = quantityRequired;
-        this.unitRequired = unitRequired;
-    }
 
-
-    // Getters y Setters (omito por brevedad, pero debes añadirlos)
+    // Getters y Setters (¡Muy importantes!)
     public Integer getMenuItemIngredientId() { return menuItemIngredientId; }
     public void setMenuItemIngredientId(Integer menuItemIngredientId) { this.menuItemIngredientId = menuItemIngredientId; }
     public Integer getProductoId() { return productoId; }

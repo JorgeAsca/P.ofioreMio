@@ -1,11 +1,9 @@
 package com.pizzeria.inventarioapp.dto;
 
-
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Set;
-import java.util.HashSet; // Importa HashSet
+import java.util.HashSet;
 
 public class MenuDTO {
     private Integer menuItemId;
@@ -13,13 +11,13 @@ public class MenuDTO {
     private String description;
     private BigDecimal salePrice;
     private Boolean isAvailable;
-    private Timestamp createdAt; // Opcional para mostrar, no para crear/actualizar
-    private Set<MenuItemIngredienteDTO> ingredients = new HashSet<>(); // Para la receta
+    private Timestamp createdAt;
+    // Aquí usaremos MenuItemIngredienteDTO para mostrar los detalles de la receta
+    private Set<MenuItemIngredienteDTO> ingredients = new HashSet<>();
 
-    // Constructores, Getters, Setters
-    public MenuDTO() {}
+    public MenuDTO() {
+    }
 
-    // Constructor para mapear desde la entidad (útil en el servicio)
     public MenuDTO(Integer menuItemId, String itemName, String description, BigDecimal salePrice, Boolean isAvailable, Timestamp createdAt) {
         this.menuItemId = menuItemId;
         this.itemName = itemName;
@@ -28,8 +26,8 @@ public class MenuDTO {
         this.isAvailable = isAvailable;
         this.createdAt = createdAt;
     }
-    
-    // Getters y Setters (omito por brevedad, pero debes añadirlos)
+
+    // Getters y Setters (¡Muy importantes!)
     public Integer getMenuItemId() { return menuItemId; }
     public void setMenuItemId(Integer menuItemId) { this.menuItemId = menuItemId; }
     public String getItemName() { return itemName; }

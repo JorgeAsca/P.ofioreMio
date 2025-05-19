@@ -6,7 +6,7 @@ import java.util.ArrayList; // Importa ArrayList
 
 public class SalesRecordDTO {
     private Integer salesRecordId;
-    private Date saleDate; // Considera usar String "yyyy-MM-dd" para la entrada y convertir en el servicio
+    private Date saleDate; 
     private Integer userId; // "Opcional" ID del usuario que realizó (Hazta que se implemente la autenticación)
     private String notes;
     private List<SoldItemDTO> soldItems = new ArrayList<>();

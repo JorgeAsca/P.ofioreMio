@@ -4,17 +4,17 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:8080/api/v1/categorias'; // URL base para categorías
 
 // Define estas interfaces según los DTOs que devuelve tu backend
-// Podrías tenerlas en un archivo separado src/interfaces/dtos.ts y exportarlas/importarlas
+
 export interface CategoriaDTO {
     categoryId: number;
     categoryName: string;
-    // subcategorias?: SubcategoriaDTO[]; // Si quieres incluir subcategorías directamente aquí
+    
 }
 
 export interface SubcategoriaDTO {
     subcategoryId: number;
-    subcategoryName: string; // Asegúrate que el nombre del campo coincida con tu DTO del backend
-    // categoryId?: number; // Podrías añadir esto si es útil
+    subcategoryName: string; 
+    
 }
 
 // Crear Categoria DTO (para enviar en el cuerpo de un POST/PUT a categorías)
@@ -58,12 +58,12 @@ export const createCategoria = async (categoriaData: CreateCategoriaDTO): Promis
     }
 };
 
-// ... (puedes añadir updateCategoria y deleteCategoria después) ...
+
 
 export const getSubcategoriasByCategoriaId = async (categoriaId: number): Promise<SubcategoriaDTO[]> => {
     try {
         const response = await axios.get<SubcategoriaDTO[]>(`${API_BASE_URL}/${categoriaId}/subcategorias`);
-        console.log("Respuesta de subcategorías API:", response.data); // AÑADE ESTE LOG
+        console.log("Respuesta de subcategorías API:", response.data); 
         if (Array.isArray(response.data)) {
             return response.data;
         } else {
@@ -73,7 +73,7 @@ export const getSubcategoriasByCategoriaId = async (categoriaId: number): Promis
     } catch (error: any) {
         console.error(`Error al obtener subcategorías para la categoría ID ${categoriaId}:`, error);
         if (error.response) {
-            // El servidor respondió con un código de estado fuera del rango 2xx
+            
             console.error("Datos del error:", error.response.data);
             console.error("Estado del error:", error.response.status);
             console.error("Cabeceras del error:", error.response.headers);
