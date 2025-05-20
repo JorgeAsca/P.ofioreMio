@@ -1,0 +1,119 @@
+.pizzas-page {
+  padding: 20px;
+  background-color: #fdf5e6; 
+  
+}
+
+.pizzas-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.pizzas-page h2 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+
+
+.create-pizza-form-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.pizza-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; 
+}
+
+.pizza-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+  border-left: 6px solid #4CAF50; 
+}
+
+.pizza-card-main-info {
+  flex-grow: 1;
+  margin-right: 15px; 
+}
+
+.pizza-card h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.4em;
+  color: #333;
+}
+
+.pizza-description {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.pizza-meta {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  font-size: 0.95em;
+  color: #555;
+}
+
+.pizza-price {
+  font-weight: bold;
+  color: #D32F2F; 
+  font-size: 1.1em;
+}
+
+.pizza-ingredients-count {
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+}
+
+.pizza-card-actions {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-end; 
+  gap: 8px;
+}
+
+
+.consumir-button {
+  background-color: #E67E22; 
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  min-width: 90px; 
+  text-align: center;
+}
+
+.consumir-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.consumir-button:hover:not(:disabled) {
+  background-color: #D35400;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+}

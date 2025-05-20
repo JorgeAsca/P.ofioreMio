@@ -13,14 +13,14 @@ import {
 
 interface AddProductFormProps {
   onProductChange: () => void; 
-  productoAEditarId?: number | null; // ID del producto a editar, si es null o undefined, es modo creación
-  onCancel: () => void; // Para cerrar el formulario
+  productoAEditarId?: number | null; 
+  onCancel: () => void; 
 }
 
 const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, productoAEditarId, onCancel }) => {
   const [isEditMode, setIsEditMode] = useState(false);
 
-  // Estados para los campos del formulario
+ 
   const [nombreProducto, setNombreProducto] = useState('');
   const [descripcionProducto, setDescripcionProducto] = useState('');
   const [currentStock, setCurrentStock] = useState('0');
@@ -101,10 +101,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, produc
     fetchCategorias();
   }, []);
 
-  // Cargar subcategorías cuando cambie la categoría seleccionada
+  
   useEffect(() => {
-    // No limpiar selectedSubcategoriaId si estamos en modo edición y ya tiene un valor
-    // hasta que las nuevas subcategorías se carguen.
+    
     const currentSubcatSelection = selectedSubcategoriaId;
 
     if (selectedCategoriaId && selectedCategoriaId !== "") {
@@ -160,11 +159,11 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, produc
         await createProducto(payload as CreateProductoDTO); // payload es compatible
         setSuccessMessage('¡Producto agregado con éxito!');
       }
-      onProductChange(); // Notificar al padre para que refresque la lista
-      if (!isEditMode) { // Solo limpiar si no estamos editando (o el usuario podría querer seguir editando)
+      onProductChange(); 
+      if (!isEditMode) { 
         setNombreProducto(''); setDescripcionProducto(''); setCurrentStock('0');
         setUnitOfMeasure(''); setImageUrl(''); setMinStockAlert('0');
-        setSelectedCategoriaId(''); // setSelectedSubcategoriaId se limpia por el efecto
+        setSelectedCategoriaId(''); 
       } else {
         onCancel(); // Cerrar formulario después de editar
       }

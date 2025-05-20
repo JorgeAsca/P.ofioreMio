@@ -1,0 +1,94 @@
+
+.ventas-page {
+  padding: 20px;
+  background-color: #fdf5e6; 
+}
+
+.ventas-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px; 
+}
+
+.ventas-page h2 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.ventas-page .page-subtitle {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+
+
+.registrar-venta-form-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.no-ventas-placeholder {
+  background-color: #fff; 
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #777;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+  margin-top: 30px;
+}
+
+.no-ventas-placeholder .placeholder-icon {
+  font-size: 48px; 
+  color: #bdc3c7; 
+  display: block;
+  margin-bottom: 20px;
+}
+
+.no-ventas-placeholder h3 {
+  font-size: 1.3em;
+  color: #555;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.no-ventas-placeholder p {
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+}
+
+
+.sales-history-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sale-record-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+  padding: 15px;
+  border-left: 5px solid #3498DB; 
+}
+
+.sale-record-card p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #444;
+}
+.sale-record-card p:first-child {
+  font-weight: bold;
+  color: #333;
+}

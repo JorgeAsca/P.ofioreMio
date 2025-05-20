@@ -1,0 +1,58 @@
+/* src/styles/Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de otros contenidos */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  min-width: 300px; /* Ancho mínimo */
+  max-width: 600px; /* Ancho máximo, puedes ajustarlo */
+  width: 80%;     /* O un porcentaje del ancho de la pantalla */
+  max-height: 90vh; /* Altura máxima */
+  overflow-y: auto; /* Scroll si el contenido es muy largo */
+  position: relative; /* Para el posicionamiento del botón de cierre si es absoluto */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 1.8em;
+  cursor: pointer;
+  color: #888;
+  padding: 0 5px; /* Más área de clic */
+}
+
+.modal-close-button:hover {
+  color: #333;
+}
+
+.modal-body {
+  /* Estilos para el cuerpo del modal si son necesarios */
+}
