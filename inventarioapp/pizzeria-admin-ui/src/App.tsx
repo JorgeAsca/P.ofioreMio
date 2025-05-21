@@ -3,23 +3,24 @@ import { BrowserRouter as Router, Routes, Route, NavLink, Navigate, useNavigate 
 import { AuthProvider, useAuth } from './contexts/AuthContext'; 
 
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage'; 
+
 import ProductosPage from './pages/ProductosPage';
 import PizzasPage from './pages/PizzasPage';
 import VentasPage from './pages/VentasPage';
 
 import './App.css'; 
 
+
 const Navbar: React.FC = () => {
-    const { isAuthenticated, logout } = useAuth();
-    const navigate = useNavigate(); // Para redirigir en logout
+    const { isAuthenticated, logout } = useAuth(); 
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
-        navigate('/login'); // Redirigir a login después de cerrar sesión
+        navigate('/login', { replace: true }); 
     };
 
-    if (!isAuthenticated) { // No mostrar Navbar si no está autenticado
+    if (!isAuthenticated) { 
         return null;
     }
 
@@ -56,8 +57,8 @@ const Navbar: React.FC = () => {
 };
 
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { isAuthenticated } = useAuth();
-    if (!isAuthenticated) return null; // No renderizar layout si no está autenticado
+    const { isAuthenticated } = useAuth(); 
+    if (!isAuthenticated) return null; 
 
     return (
         <div className="app-layout-container"> 
@@ -72,7 +73,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     );
 };
 
-const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => { // Ya no necesita allowedRoles
+const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
     const { isAuthenticated, isLoading } = useAuth(); 
 
     if (isLoading) {
@@ -82,7 +83,7 @@ const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => { 
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
-
+    
     return children; 
 };
 
@@ -96,8 +97,7 @@ const RootRedirector: React.FC = () => {
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
-
-    // Si está autenticado, redirige a una página por defecto, ej. /productos
+    
     return <Navigate to="/productos" replace />; 
 };
 
@@ -107,7 +107,8 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
+                
+
                 <Route path="/" element={<RootRedirector />} />
 
                 <Route 

@@ -11,19 +11,19 @@ const LoginPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     
-    
+    // Ya no necesitamos userRole aquí para la lógica de redirección inmediata
     const { login, isAuthenticated, isLoading: authContextIsLoading } = useAuth(); 
     const navigate = useNavigate();
 
-    
+    // Efecto para redirigir después de que isAuthenticated cambie a true
     useEffect(() => {
         if (!authContextIsLoading && isAuthenticated) {
             console.log("LoginPage useEffect: Autenticado. Redirigiendo a /productos...");
-            navigate('/productos', { replace: true }); 
+            navigate('/productos', { replace: true }); // Redirige a una página por defecto
         }
     }, [isAuthenticated, navigate, authContextIsLoading]);
 
-    
+    // Efecto para redirigir si ya está autenticado al cargar la página
     useEffect(() => {
         if (!authContextIsLoading && isAuthenticated) {
             console.log("LoginPage: Usuario ya autenticado al cargar, redirigiendo a /productos...");
@@ -40,12 +40,12 @@ const LoginPage: React.FC = () => {
         try {
             const responseData = await authService.login(nombreUsuario, password);
             
-            
+            // El backend podría seguir enviando 'rol', pero aquí solo nos importa el token
             if (responseData && responseData.token) {
-                
+                // Llama a la función login del AuthContext (versión simplificada que solo toma token)
                 login(responseData.token); 
                 console.log("LoginPage handleSubmit: Login API exitoso. Context login() llamado.");
-                
+                // La navegación ahora es manejada por el useEffect que observa 'isAuthenticated'
             } else {
                 let errorMessage = "Respuesta de login inválida del servidor.";
                 if (!responseData?.token) errorMessage += " Falta token.";
@@ -100,7 +100,7 @@ const LoginPage: React.FC = () => {
                     </button>
                 </form>
                 <div className="auth-links">
-                    <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
+                    <p>¿No tienes cuenta? <Link to="/register">Regístrate </Link></p>
                 </div>
             </div>
         </div>
@@ -108,3 +108,4 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
+
