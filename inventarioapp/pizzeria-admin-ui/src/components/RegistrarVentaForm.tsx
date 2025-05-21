@@ -221,4 +221,5 @@ const RegistrarVentaForm: React.FC<RegistrarVentaFormProps> = ({ onSaleSuccess, 
     );
 };
 
+
 export default RegistrarVentaForm;

@@ -119,7 +119,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 15px 20px;
-  border-left: 5px solid #2980b9; /* Azul para las ventas */
+  border-left: 5px solid #2980b9; 
 }
 
 .sale-record-header {
@@ -164,14 +164,14 @@
   border-top: 1px dashed #ecf0f1;
   font-size: 0.9em;
 }
-.sale-record-footer span:first-child { /* Notas */
+.sale-record-footer span:first-child { 
     color: #7f8c8d;
     font-style: italic;
-    max-width: 60%; /* Para que no ocupe todo si las notas son largas */
+    max-width: 60%; 
 }
-.sale-record-footer span:last-child { /* Total */
+.sale-record-footer span:last-child { 
     font-weight: bold;
-    color: #27ae60; /* Verde para el total */
+    color: #27ae60; 
     font-size: 1.1em;
 }
 
