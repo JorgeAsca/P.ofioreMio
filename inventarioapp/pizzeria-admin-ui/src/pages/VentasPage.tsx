@@ -72,7 +72,7 @@ const VentasPage: React.FC = () => {
 
             {errorVentas && <p className="error-message" style={{ color: 'red' }}>{errorVentas}</p>}
 
-            {/* Sección para mostrar el historial de ventas */}
+            
             <div className="sales-history-section">
                 <h3>Historial de Ventas</h3>
                 {loadingVentas && <p>Cargando historial...</p>}

@@ -127,12 +127,12 @@ const RegistrarVentaForm: React.FC<RegistrarVentaFormProps> = ({ onSaleSuccess, 
             
             setCart([]);
             setNotes('');
-            // Resetear selección de pizza al primer disponible o a vacío
+            
             const firstAvailable = allMenuItems.find(item => item.isAvailable);
             setSelectedMenuItemId(firstAvailable ? firstAvailable.menuItemId.toString() : '');
             setQuantityToSell(1);
 
-            onSaleSuccess(); // Llama a la función de VentasPage para cerrar modal y recargar historial
+            onSaleSuccess(); 
 
         } catch (error) {
             console.error("Error al registrar venta:", error);
