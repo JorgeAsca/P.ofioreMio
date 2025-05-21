@@ -32,6 +32,7 @@
   font-weight: 500;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
@@ -40,6 +41,7 @@
   font-weight: bold;
   font-size: 1.2em;
 }
+
 
 
 
@@ -128,6 +130,7 @@
   margin: 0 auto; 
   box-sizing: border-box;
 }
+
 
 .product-list {
   display: flex;

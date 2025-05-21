@@ -9,12 +9,18 @@ import {
   type SubcategoriaDTO 
 
 } from '../services/categoriaService';
+import '../styles/AddProductosForm.css';
 
 
 interface AddProductFormProps {
   onProductChange: () => void; 
   productoAEditarId?: number | null; 
   onCancel: () => void; 
+}
+
+interface CrearPizzaFormProps {
+  onPizzaSaved: () => void; 
+    onCancel: () => void; 
 }
 
 const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, productoAEditarId, onCancel }) => {
@@ -232,5 +238,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onProductChange, produc
     </form>
   );
 };
+
+
 
 export default AddProductForm;

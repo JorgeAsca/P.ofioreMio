@@ -2,8 +2,13 @@ import React, { useState, useEffect, type FormEvent } from 'react';
 import type { MenuResponse } from '../interfaces/Menu'; 
 import type { CartItem, SalesRecordPayload, SalesRecordResponse, SoldItemPayload } from '../interfaces/Venta'; 
  
+interface RegistrarVentaFormProps {
+    onSaleSuccess: () => void; 
+    onCancel: () => void;      
+}
 
-const RegistrarVentaForm: React.FC = () => {
+
+const RegistrarVentaForm: React.FC<RegistrarVentaFormProps> = ({ onSaleSuccess, onCancel }) => {
     const [allMenuItems, setAllMenuItems] = useState<MenuResponse[]>([]);
     const [cart, setCart] = useState<CartItem[]>([]);
     const [notes, setNotes] = useState<string>('');
@@ -18,15 +23,15 @@ const RegistrarVentaForm: React.FC = () => {
                 if (!response.ok) throw new Error('Error al cargar el menú de pizzas');
                 const data: MenuResponse[] = await response.json();
                 setAllMenuItems(data);
-                if (data.length > 0 && data.filter(item => item.isAvailable).length > 0) {
-                    // Seleccionar el primer item disponible por defecto
+                if (data.length > 0) { 
                     const firstAvailable = data.find(item => item.isAvailable);
                     if (firstAvailable) {
-                         setSelectedMenuItemId(firstAvailable.menuItemId.toString());
+                        setSelectedMenuItemId(firstAvailable.menuItemId.toString());
                     }
                 }
             } catch (error) {
-                console.error("Error fetching menu items:", error);
+                console.error("Error fetching menu items for sale:", error);
+                
             }
         };
         fetchMenuItems();
@@ -53,15 +58,15 @@ const RegistrarVentaForm: React.FC = () => {
                     ...prevCart,
                     {
                         menuItemId: menuItem.menuItemId,
-                        itemName: menuItem.itemName,
+                        itemName: menuItem.itemName, 
                         quantitySold: quantityToSell,
-                        priceAtSale: menuItem.salePrice
+                        priceAtSale: menuItem.salePrice 
                     }
                 ]);
             }
-            setQuantityToSell(1); // Resetear cantidad
+            setQuantityToSell(1); 
         } else {
-            alert("El ítem seleccionado no está disponible o no se encontró.")
+            alert("El ítem seleccionado no está disponible o no se encontró.");
         }
     };
 
@@ -73,7 +78,7 @@ const RegistrarVentaForm: React.FC = () => {
         return cart.reduce((total, item) => total + (item.priceAtSale * item.quantitySold), 0).toFixed(2);
     };
 
-    const handleSubmitSale = async (event: FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmitSale = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (cart.length === 0) {
             alert("El carrito está vacío.");
@@ -105,14 +110,30 @@ const RegistrarVentaForm: React.FC = () => {
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
-                
-                throw new Error(`Error al registrar venta: ${response.status} - ${errorText}`);
+                let errorMsg = `Error al registrar venta: ${response.status}`;
+                try {
+                    
+                    const errorText = await response.text();
+                    
+                    const errorJson = JSON.parse(errorText); 
+                    errorMsg = errorJson.message || errorJson.error || errorText || errorMsg;
+                } catch (e) {
+                    
+                    errorMsg = `Error al registrar venta: ${response.status}. Intenta de nuevo.`;
+                }
+                throw new Error(errorMsg);
             }
-            const result: SalesRecordResponse = await response.json();
-            alert(`Venta registrada con ID: ${result.salesRecordId}! Stock actualizado.`);
+            
+            
             setCart([]);
             setNotes('');
+            // Resetear selección de pizza al primer disponible o a vacío
+            const firstAvailable = allMenuItems.find(item => item.isAvailable);
+            setSelectedMenuItemId(firstAvailable ? firstAvailable.menuItemId.toString() : '');
+            setQuantityToSell(1);
+
+            onSaleSuccess(); // Llama a la función de VentasPage para cerrar modal y recargar historial
+
         } catch (error) {
             console.error("Error al registrar venta:", error);
              if (error instanceof Error) {
@@ -124,60 +145,79 @@ const RegistrarVentaForm: React.FC = () => {
     };
 
     return (
-        <div>
-            <h2>Registrar Venta</h2>
-            <form onSubmit={handleSubmitSale}> 
-                <fieldset>
-                    <legend>Añadir Ítem a la Venta</legend>
-                    <div>
-                        <label htmlFor="menuItemSelect">Pizza:</label>
-                        <select id="menuItemSelect" value={selectedMenuItemId} onChange={e => setSelectedMenuItemId(e.target.value)}>
-                            <option value="">-- Selecciona una Pizza --</option>
-                            {allMenuItems.filter(item => item.isAvailable).map(item => (
-                                <option key={item.menuItemId} value={item.menuItemId.toString()}>
-                                    {item.itemName} - ${item.salePrice.toFixed(2)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <label htmlFor="quantityToSell">Cantidad:</label>
-                        <input
-                            id="quantityToSell"
-                            type="number"
-                            min="1"
-                            value={quantityToSell}
-                            onChange={e => setQuantityToSell(parseInt(e.target.value, 10))}
-                        />
-                    </div>
-                    <button type="button" onClick={handleAddToCart}>Añadir al Carrito</button>
-                </fieldset>
-
-                <h4>Carrito de Venta:</h4>
-                {cart.length === 0 ? <p>El carrito está vacío.</p> : (
-                    <>
-                        <ul>
-                            {cart.map((item) => (
-                                <li key={item.menuItemId}>
-                                    {item.itemName} (x{item.quantitySold}) @ ${item.priceAtSale.toFixed(2)} c/u = ${(item.quantitySold * item.priceAtSale).toFixed(2)}
-                                    <button type="button" onClick={() => handleRemoveFromCart(item.menuItemId)} style={{ marginLeft: '10px' }}>
-                                        Eliminar
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                        <h3>Total: ${calculateTotal()}</h3>
-                    </>
-                )}
-                <div>
-                    <label htmlFor="saleNotes">Notas Adicionales:</label>
-                    <textarea id="saleNotes" value={notes} onChange={e => setNotes(e.target.value)} />
+        
+        <form onSubmit={handleSubmitSale}>
+            <fieldset className="form-fieldset"> 
+                <legend>Añadir Ítem a la Venta</legend>
+                <div className="form-group"> 
+                    <label htmlFor="menuItemSelectSale">Pizza/Ítem:</label>
+                    <select 
+                        id="menuItemSelectSale" 
+                        value={selectedMenuItemId} 
+                        onChange={e => setSelectedMenuItemId(e.target.value)}
+                    >
+                        <option value="">-- Selecciona un Ítem --</option>
+                        {allMenuItems.filter(item => item.isAvailable).map(item => (
+                            <option key={item.menuItemId} value={item.menuItemId.toString()}>
+                                {item.itemName} - ${item.salePrice.toFixed(2)}
+                            </option>
+                        ))}
+                    </select>
                 </div>
-                <button type="submit" disabled={cart.length === 0}> 
+                <div className="form-group">
+                    <label htmlFor="quantityToSellSale">Cantidad:</label>
+                    <input
+                        id="quantityToSellSale"
+                        type="number"
+                        min="1"
+                        value={quantityToSell}
+                        onChange={e => setQuantityToSell(parseInt(e.target.value, 10) || 1)} 
+                    />
+                </div>
+                <button 
+                    type="button" 
+                    onClick={handleAddToCart} 
+                    className="button-add-ingredient" // Reutiliza estilo de CrearPizzaForm o crea uno nuevo
+                    style={{alignSelf: 'center', marginTop: '10px'}}
+                >
+                    Añadir al Carrito
+                </button>
+            </fieldset>
+
+            <h4>Carrito de Venta:</h4>
+            {cart.length === 0 ? <p>El carrito está vacío.</p> : (
+                <>
+                    
+                    <ul className="current-cart-list"> 
+                        {cart.map((item) => (
+                            <li key={item.menuItemId}>
+                                <span>{item.itemName} (x{item.quantitySold}) @ ${item.priceAtSale.toFixed(2)} c/u = ${(item.quantitySold * item.priceAtSale).toFixed(2)}</span>
+                                <button 
+                                    type="button" 
+                                    onClick={() => handleRemoveFromCart(item.menuItemId)} 
+                                    className="button-remove-ingredient" 
+                                >
+                                    &times; 
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                    <h3>Total: ${calculateTotal()}</h3>
+                </>
+            )}
+            <div className="form-group">
+                <label htmlFor="saleNotes">Notas Adicionales:</label>
+                <textarea id="saleNotes" value={notes} onChange={e => setNotes(e.target.value)} />
+            </div>
+            <div className="form-actions"> 
+                <button type="button" className="button-secondary" onClick={onCancel}>
+                    Cancelar
+                </button>
+                <button type="submit" className="button-primary" disabled={cart.length === 0}>
                     Finalizar y Registrar Venta
                 </button>
-            </form>
-        </div>
+            </div>
+        </form>
     );
 };
 

@@ -69,7 +69,7 @@ const ProductosPage: React.FC = () => {
         <div className="productos-page">
             <div className="page-header">
                 <h2>Productos</h2>
-                {/* El botón "Añadir" ahora abre el modal */}
+                
                 <button onClick={handleAddNew} className="button-add">
                     <span className="icon-plus">+</span> Añadir
                 </button>

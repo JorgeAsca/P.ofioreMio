@@ -1,58 +1,164 @@
-/* src/styles/Modal.css */
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+  background-color: rgba(0, 0, 0, 0.55); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Asegura que esté por encima de otros contenidos */
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease-out, visibility 0.25s ease-out;
+}
+
+.modal-overlay.open { 
+  opacity: 1;
+  visibility: visible;
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  min-width: 300px; /* Ancho mínimo */
-  max-width: 600px; /* Ancho máximo, puedes ajustarlo */
-  width: 80%;     /* O un porcentaje del ancho de la pantalla */
-  max-height: 90vh; /* Altura máxima */
-  overflow-y: auto; /* Scroll si el contenido es muy largo */
-  position: relative; /* Para el posicionamiento del botón de cierre si es absoluto */
+  background-color: #fdf5e6;
+  padding: 20px 25px; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+  min-width: 300px;
+  width: auto;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(-20px) scale(0.95); 
+  opacity: 0;
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
 }
+
+.modal-overlay.open .modal-content { 
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+  padding-bottom: 12px;
+  margin-bottom: 20px; 
+  border-bottom: 1px solid #000000; 
 }
 
 .modal-title {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1.4em; 
+  font-weight: 600;
   color: #333;
 }
 
 .modal-close-button {
   background: none;
   border: none;
-  font-size: 1.8em;
+  font-size: 1.7em; 
+  font-weight: normal; 
+  line-height: 1;
   cursor: pointer;
   color: #888;
-  padding: 0 5px; /* Más área de clic */
+  padding: 0;
 }
 
 .modal-close-button:hover {
-  color: #333;
+  color: #000; 
 }
 
-.modal-body {
-  /* Estilos para el cuerpo del modal si son necesarios */
+.modal-body form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; 
 }
+
+.modal-body form .form-group { 
+  display: flex;
+  flex-direction: column;
+  gap: 6px; 
+}
+
+.modal-body form label {
+  font-weight: 500;
+  color: #4a5568; 
+  font-size: 0.9em;
+}
+
+.modal-body form input[type="text"],
+.modal-body form input[type="number"],
+.modal-body form input[type="url"],
+.modal-body form textarea,
+.modal-body form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e0; 
+  border-radius: 6px;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.modal-body form input:focus,
+.modal-body form textarea:focus,
+.modal-body form select:focus {
+  border-color: #D32F2F; 
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2); 
+  outline: none;
+}
+
+.modal-body form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+
+.modal-body .form-actions {
+  display: flex;
+  justify-content: flex-end; 
+  gap: 12px;
+  margin-top: 25px; 
+  padding-top: 20px; 
+  border-top: 1px solid #eaeaea; 
+}
+
+.modal-body form button { 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+ .h3{
+  color: black;
+ }
+
+.modal-body form button.button-primary, 
+.modal-body form button[type="submit"] {
+  background-color: #D32F2F; 
+  color: white;
+}
+.modal-body form button.button-primary:hover,
+.modal-body form button[type="submit"]:hover {
+  background-color: #B71C1C; 
+  
+}
+
+.modal-body form button.button-secondary, 
+.modal-body form button[type="button"] {
+  background-color: #000000; 
+}
+ .modal-body form button.button-secondary:hover,
+ .modal-body form button[type="button"]:hover {
+  background-color: #cbd5e0;
+}
+
+

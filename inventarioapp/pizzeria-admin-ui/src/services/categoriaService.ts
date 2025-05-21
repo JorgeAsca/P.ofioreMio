@@ -1,9 +1,8 @@
-// src/services/categoriaService.ts
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/v1/categorias'; // URL base para categorías
+const API_BASE_URL = 'http://localhost:8080/api/v1/categorias'; 
 
-// Define estas interfaces según los DTOs que devuelve tu backend
+
 
 export interface CategoriaDTO {
     categoryId: number;
@@ -17,12 +16,12 @@ export interface SubcategoriaDTO {
     
 }
 
-// Crear Categoria DTO (para enviar en el cuerpo de un POST/PUT a categorías)
+
 export interface CreateCategoriaDTO {
     categoryName: string;
 }
 
-// Crear Subcategoria DTO (para enviar en el cuerpo de un POST a /categorias/{id}/subcategorias)
+
 export interface CreateSubcategoriaDTO {
     subcategoryName: string;
 }
@@ -68,7 +67,7 @@ export const getSubcategoriasByCategoriaId = async (categoriaId: number): Promis
             return response.data;
         } else {
             console.warn(`API para subcategorías de ID ${categoriaId} no devolvió un array. Recibido:`, response.data);
-            return []; // Devuelve array vacío si la respuesta no es un array
+            return []; 
         }
     } catch (error: any) {
         console.error(`Error al obtener subcategorías para la categoría ID ${categoriaId}:`, error);
@@ -78,13 +77,13 @@ export const getSubcategoriasByCategoriaId = async (categoriaId: number): Promis
             console.error("Estado del error:", error.response.status);
             console.error("Cabeceras del error:", error.response.headers);
         } else if (error.request) {
-            // La solicitud se hizo pero no se recibió respuesta
+            
             console.error("Error en la solicitud (no hubo respuesta):", error.request);
         } else {
-            // Algo más causó el error
+            
             console.error('Error', error.message);
         }
-        return []; // Siempre devuelve un array vacío en caso de error en la llamada
+        return []; 
     }
 };
 export const createSubcategoriaForCategoria = async (categoriaId: number, subcategoriaData: CreateSubcategoriaDTO): Promise<SubcategoriaDTO> => {

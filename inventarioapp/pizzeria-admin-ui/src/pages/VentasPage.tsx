@@ -1,7 +1,7 @@
-// src/pages/VentasPage.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import RegistrarVentaForm from '../components/RegistrarVentaForm'; 
-import type { SalesRecordResponse } from '../interfaces/Venta'; 
+import Modal from '../components/Modal';
+import type { SalesRecordResponse } from '../interfaces/Venta';
 import '../styles/VentasPage.css'; 
 
 
@@ -14,87 +14,100 @@ async function getAllSalesRecordsAPI(): Promise<SalesRecordResponse[]> {
 }
 
 const VentasPage: React.FC = () => {
-    const [ventas, setVentas] = useState<SalesRecordResponse[]>([]);
-    const [loading, setLoading] = useState<boolean>(false); 
-    const [error, setError] = useState<string | null>(null);
-    const [showRegistrarVentaForm, setShowRegistrarVentaForm] = useState<boolean>(false);
+    const [historialVentas, setHistorialVentas] = useState<SalesRecordResponse[]>([]);
+    const [loadingVentas, setLoadingVentas] = useState<boolean>(false); 
+    const [errorVentas, setErrorVentas] = useState<string | null>(null);
+    const [showRegistrarVentaModal, setShowRegistrarVentaModal] = useState<boolean>(false);
 
-
-    const fetchVentas = useCallback(async () => {
+    const fetchHistorialVentas = useCallback(async () => {
         try {
-            setLoading(true);
-            const data = await getAllSalesRecordsAPI(); 
-            setVentas(data);
-            setError(null);
+            setLoadingVentas(true);
+            const data = await getAllSalesRecordsAPI();
+            setHistorialVentas(data);
+            setErrorVentas(null);
         } catch (err: any) {
-            setError(err.message || "Error al cargar las ventas.");
+            setErrorVentas(err.message || "Error al cargar el historial de ventas.");
             console.error(err);
         } finally {
-            setLoading(false);
+            setLoadingVentas(false);
         }
     }, []);
 
-    
-    const handleVentaRegistrada = () => {
-        
-        setShowRegistrarVentaForm(false); 
-        alert("Venta registrada con éxito!"); 
+ 
+    useEffect(() => {
+        fetchHistorialVentas();
+    }, [fetchHistorialVentas]);
+
+    const handleVentaRegistradaConExito = () => {
+        fetchHistorialVentas(); 
+        setShowRegistrarVentaModal(false); 
+        alert("Venta registrada con éxito y stock actualizado!");
+    };
+
+    const openRegistrarVentaModal = () => {
+        setShowRegistrarVentaModal(true);
     };
 
     return (
         <div className="ventas-page">
             <div className="page-header">
                 <h2>Ventas</h2>
-                {!showRegistrarVentaForm && (
-                    <button onClick={() => setShowRegistrarVentaForm(true)} className="button-add">
-                        <span className="icon-plus">+</span> Nueva venta
-                    </button>
+                <button onClick={openRegistrarVentaModal} className="button-add">
+                    <span className="icon-plus">+</span> Nueva venta
+                </button>
+            </div>
+            <p className="page-subtitle">Registro diario de ventas de pizzas y otros productos.</p>
+
+            <Modal
+                isOpen={showRegistrarVentaModal}
+                onClose={() => setShowRegistrarVentaModal(false)}
+                title="Registrar Nueva Venta"
+            >
+                <RegistrarVentaForm
+                    
+                    onSaleSuccess={handleVentaRegistradaConExito} 
+                    onCancel={() => setShowRegistrarVentaModal(false)} 
+                />
+            </Modal>
+
+            {errorVentas && <p className="error-message" style={{ color: 'red' }}>{errorVentas}</p>}
+
+            {/* Sección para mostrar el historial de ventas */}
+            <div className="sales-history-section">
+                <h3>Historial de Ventas</h3>
+                {loadingVentas && <p>Cargando historial...</p>}
+                {!loadingVentas && historialVentas.length === 0 && (
+                    <div className="no-ventas-placeholder">
+                        <span className="placeholder-icon">🛒</span>
+                        <h4>Todavía no hay ventas registradas</h4>
+                        <p>Registra tu primera venta usando el botón superior.</p>
+                    </div>
+                )}
+                {!loadingVentas && historialVentas.length > 0 && (
+                    <div className="sales-history-list">
+                        {historialVentas.map(venta => (
+                            <div key={venta.salesRecordId} className="sale-record-card">
+                                <div className="sale-record-header">
+                                    <strong>Venta ID: {venta.salesRecordId}</strong>
+                                    <span>Fecha: {new Date(venta.saleDate).toLocaleDateString()}</span>
+                                </div>
+                                <ul className="sold-items-list">
+                                    {venta.soldItems.map((item, index) => (
+                                        <li key={index}>
+                                            
+                                            Item ID: {item.menuItemId} - Cantidad: {item.quantitySold} - Precio: ${item.priceAtSale.toFixed(2)}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="sale-record-footer">
+                                    <span>Notas: {venta.notes || 'N/A'}</span>
+                                    <span>Total: ${venta.soldItems.reduce((sum, item) => sum + (item.priceAtSale * item.quantitySold), 0).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 )}
             </div>
-            <p className="page-subtitle">Registro de ventas de pizzas</p>
-
-
-            {showRegistrarVentaForm && (
-                <div className="registrar-venta-form-container">
-                    <RegistrarVentaForm />
-                   
-                    <button onClick={() => setShowRegistrarVentaForm(false)} style={{ marginTop: '20px' }}>
-                        Cerrar Registro de Venta
-                    </button>
-                </div>
-            )}
-
-            {error && <p className="error-message" style={{color: 'red'}}>{error}</p>}
-            {loading && <p>Cargando historial de ventas...</p>}
-
-            {!loading && !showRegistrarVentaForm && ventas.length === 0 && (
-                <div className="no-ventas-placeholder">
-                    <span className="placeholder-icon">🛒</span>
-                    <h3>Todavía no hay ventas registradas</h3>
-                    <p>Registra tu primera venta usando el botón superior.</p>
-                </div>
-            )}
-
-            {/* Aquí iría el listado del historial de ventas si ventas.length > 0 */}
-            {!loading && !showRegistrarVentaForm && ventas.length > 0 && (
-                <div className="sales-history-list">
-                    {ventas.map(venta => (
-                        // Aquí renderizarías cada venta, similar a una tarjeta
-                        <div key={venta.salesRecordId} className="sale-record-card">
-                            <p>ID Venta: {venta.salesRecordId}</p>
-                            <p>Fecha: {new Date(venta.saleDate).toLocaleDateString()}</p>
-                            <p>Items: {venta.soldItems.length}</p>
-                            <p>Notas: {venta.notes || 'N/A'}</p>
-                            { // Calcular total si lo necesitas mostrar aquí
-                                (() => {
-                                    const total = venta.soldItems.reduce((sum, item) => sum + (item.priceAtSale * item.quantitySold), 0);
-                                    return <p>Total: ${total.toFixed(2)}</p>;
-                                })()
-                            }
-                        </div>
-                    ))}
-                </div>
-            )} *
         </div>
     );
 };

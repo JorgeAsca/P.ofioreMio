@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/Modal.css'; 
+
+
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,13 +11,28 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
-  if (!isOpen) {
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleEsc);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) { 
     return null;
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}> {/* Evita que el clic dentro del modal lo cierre */}
+    
+    <div className={`modal-overlay ${isOpen ? 'open' : ''}`} onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           {title && <h3 className="modal-title">{title}</h3>}
           <button onClick={onClose} className="modal-close-button">&times;</button>

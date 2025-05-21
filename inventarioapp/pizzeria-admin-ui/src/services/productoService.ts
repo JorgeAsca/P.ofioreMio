@@ -4,7 +4,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/v1/productos";
 
-//Definimos una interfaz para la estructura de los productos(DTO)
+
 export interface Producto {
     productoId: number;
     nombreProducto: string;
@@ -13,7 +13,7 @@ export interface Producto {
     unitOfMeasure: string;
     imageUrl?: string;
     minStockAlert?: number;
-    createdAt?: string; // Las fechas pueden ser string en formato ISO
+    createdAt?: string; 
     updatedAt?: string;
     categoria?: any;
     subcategoria?: any;

@@ -92,3 +92,86 @@
   font-weight: bold;
   color: #333;
 }
+
+.from-fieldset{
+  color: black;
+}
+
+.sales-history-section {
+    margin-top: 30px;
+}
+.sales-history-section h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.sales-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sale-record-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 15px 20px;
+  border-left: 5px solid #2980b9; /* Azul para las ventas */
+}
+
+.sale-record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #ecf0f1;
+  font-size: 0.9em;
+}
+.sale-record-header strong {
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+.sale-record-header span {
+    color: #7f8c8d;
+}
+
+.sold-items-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+}
+
+.sold-items-list li {
+  padding: 5px 0;
+  font-size: 0.85em;
+  color: #34495e;
+  border-bottom: 1px dotted #f0f0f0;
+}
+.sold-items-list li:last-child {
+  border-bottom: none;
+}
+
+.sale-record-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ecf0f1;
+  font-size: 0.9em;
+}
+.sale-record-footer span:first-child { /* Notas */
+    color: #7f8c8d;
+    font-style: italic;
+    max-width: 60%; /* Para que no ocupe todo si las notas son largas */
+}
+.sale-record-footer span:last-child { /* Total */
+    font-weight: bold;
+    color: #27ae60; /* Verde para el total */
+    font-size: 1.1em;
+}
+
